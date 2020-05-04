@@ -1,3 +1,7 @@
 #!/usr/bin/env ruby
 
-puts "hello world"
+class CLI
+    def call
+        puts "hello world"
+    end
+end
