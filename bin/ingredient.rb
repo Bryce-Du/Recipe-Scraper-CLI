@@ -1,4 +1,6 @@
 class Ingredient
+    extend Concerns::Findable
+
     attr_accessor :name
 
     @@all = []
@@ -23,6 +25,7 @@ class Ingredient
     end
 
     def recipes
-        IngredientRecipe.all.select{|key| key.ingredient == self}.recipe
+        keys = RecipeIngredient.all.select{|key| key.ingredient == self}
+        keys.collect{|key| key.recipe}
     end
 end

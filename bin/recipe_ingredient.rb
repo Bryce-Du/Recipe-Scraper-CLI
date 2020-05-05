@@ -1,4 +1,4 @@
-class IngredientRecipe
+class RecipeIngredient
     attr_accessor :ingredient, :recipe
 
     @@all = []
@@ -10,20 +10,16 @@ class IngredientRecipe
     def save
         @@all << self
     end
-    def IngredientRecipe.create (ingredient, recipe)
-        new_key = IngredientRecipe.new(ingredient, recipe)
+    def RecipeIngredient.create (ingredient, recipe)
+        new_key = RecipeIngredient.new(ingredient, recipe)
         new_key.save
         new_key
     end
 
-    def IngredientRecipe.all
+    def RecipeIngredient.all
         @@all
     end
-    def IngredientRecipe.destroy_all
+    def RecipeIngredient.destroy_all
         @@all.clear
     end
-
-    
-
-
 end
