@@ -9,6 +9,7 @@ GEM
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
+    require_all (1.5.0)
 
 PLATFORMS
   ruby
@@ -16,6 +17,7 @@ PLATFORMS
 DEPENDENCIES
   nokogiri
   pry
+  require_all (~> 1.0)
 
 BUNDLED WITH
    2.1.4

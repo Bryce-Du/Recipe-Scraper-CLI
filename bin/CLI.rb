@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 class CLI
     def call
         puts "Welcome to Recipe Scraper!"
@@ -9,6 +7,7 @@ class CLI
         until response == "exit"
             response = gets.strip
             if response == "exit"
+                exit
             elsif response == "help"
                 self.help
             else

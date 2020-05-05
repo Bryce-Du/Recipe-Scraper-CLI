@@ -1,3 +1,4 @@
-require_relative '../bin/CLI'
+require 'bundler'
+Bundler.require
 
-CLI.new.call
+require_all 'bin'
