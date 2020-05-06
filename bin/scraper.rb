@@ -14,8 +14,7 @@ class Scraper
         name = recipe_page.css(".o-AssetTitle__a-HeadlineText")[0].text
         recipe = Recipe.create(name)
         ingredients = []
-        ingredient_css = recipe_page.css(".o-Ingredients__a-Ingredient")
-        ingredient_css.each do |ingr_css|
+        recipe_page.css(".o-Ingredients__a-Ingredient").each do |ingr_css|
             ingredients << ingr_css.text
         end
         ingredients.each {|ingr_name| recipe.add_ingredient(ingr_name)}
