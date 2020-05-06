@@ -25,7 +25,9 @@ require_relative '../config/environment'
 #     puts ingr.name
 # end
 
-pages = Scraper.new.get_full_index
-puts pages
+Scraper.new.read_recipe("https://www.foodnetwork.com/recipes/a-great-seafood-burger-recipe-2012165")
+only_recipe = Recipe.all.find {|recipe| true}
+puts only_recipe.name
+only_recipe.ingredients.each {|ingr| puts ingr.name}
 
 CLI.new.call

@@ -1,5 +1,6 @@
 require "nokogiri"
 require "open-uri"
+# require "mechanize"
 
 class Scraper
     attr_accessor :recipe_pages
@@ -8,10 +9,15 @@ class Scraper
         @recipe_pages = []
     end
     
-    def get_full_index
-        Nokogiri::HTML(open("https://www.foodnetwork.com/recipes/recipes-a-z")) # open the base recipes A-Z page
-    end
-    def get_alphabet_pages
-        
+    def read_recipe (page)
+        recipe_page = Nokogiri::HTML(open(page))
+        name = recipe_page.css(".o-AssetTitle__a-HeadlineText")[0].text
+        recipe = Recipe.create(name)
+        ingredients = []
+        ingredient_css = recipe_page.css(".o-Ingredients__a-Ingredient")
+        ingredient_css.each do |ingr_css|
+            ingredients << ingr_css.text
+        end
+        ingredients.each {|ingr_name| recipe.add_ingredient(ingr_name)}
     end
 end
