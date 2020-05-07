@@ -25,6 +25,5 @@ require_relative '../config/environment'
 #     puts ingr.name
 # end
 
-Scraper.new.open_recipe("https://www.foodnetwork.com/recipes/recipes-a-z/a")
 
 CLI.new.call

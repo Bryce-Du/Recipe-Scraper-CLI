@@ -17,14 +17,14 @@ class Recipe
         new_recipe
     end
     
-    def add_ingredient(ingr_name)
+    def add_ingredient(ingr_name, quantity = "1")
         ingr = Ingredient.find_or_create_by_name(ingr_name)
-        RecipeIngredient.create(ingr, self)
+        RecipeIngredient.create(ingr, self, quantity)
     end
 
     def ingredients
         keys = RecipeIngredient.all.select{|key| key.recipe == self}
-        keys.collect{|key| key.ingredient}
+        #keys.collect{|key| key.ingredient}
     end
 
     def Recipe.all

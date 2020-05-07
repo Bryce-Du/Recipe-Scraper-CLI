@@ -24,12 +24,26 @@ class Scraper
         begin
             recipe_page = Nokogiri::HTML(open(page, {:redirect => false}))
             name = recipe_page.css(".o-AssetTitle__a-HeadlineText")[0].text
-            recipe = Recipe.create(name)
+            recipe = Recipe.find_or_create_by_name(name)
+            ingr_as_css = recipe_page.css(".o-Ingredients__a-Ingredient")
             ingredients = []
-            recipe_page.css(".o-Ingredients__a-Ingredient").each do |ingr_css|
-                ingredients << ingr_css.text
+            ingr_as_css.each do |ingr_css|
+                ingr_text = ingr_css.text
+                data = ingr_text.split(" ")
+                quantity = ""
+                if data.length == 1
+                    ingr_name = data[0]
+                elsif data[1] == "cup" || data[1] == "teaspoon" || data[1] == "tablespoon" || data[1] == "cups" || data[1] == "teaspoons" || data[1] == "tablespoons" || data[1] == "pound" || data[1] == "pounds" || data[1] == "ounce" || data[1] == "ounces"
+                    quantity = "#{data[0]} #{data[1]}"
+                    ingr_name = data.drop(2).join(" ")
+                elsif /\d\/\d/ == data[0] || /\d+/ == data[0]
+                    quantity = "#{data[0]}"
+                    ingr_name = data.drop(1).join(" ")
+                else
+                    ingr_name = ingr_text
+                end
+                recipe.add_ingredient(ingr_name, quantity)
             end
-            ingredients.each {|ingr_name| recipe.add_ingredient(ingr_name)}
         rescue OpenURI::HTTPRedirect => redirect
         end
     end
