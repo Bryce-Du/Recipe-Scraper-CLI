@@ -28,6 +28,7 @@ class CLI
     end
     def display_recipes
         Recipe.all.each_with_index {|recipe, index| puts "#{index+1}. #{recipe.name}"}
+        puts "To select a recipe by its listed number enter 'select'"
     end
     def select_recipe(selection)
         selected = Recipe.all[(selection.to_i)-1]
