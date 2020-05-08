@@ -1,7 +1,7 @@
 class CLI
     def call
         puts "Loading Recipes, this should take a few minutes."
-        Scraper.new.open_recipe("https://www.foodnetwork.com/recipes/recipes-a-z/e")
+        Scraper.new.open_recipe("https://www.foodnetwork.com/recipes/recipes-a-z/b")
         puts "--Recipes loaded! Welcome to Recipe Scraper!--"
         puts "Enter 'help' for a list of commands."
         puts "Enter 'exit' to close app."
