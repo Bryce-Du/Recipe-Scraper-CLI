@@ -33,17 +33,19 @@ class Scraper
                 quantity = ""
                 if data.length == 1
                     ingr_name = data[0]
-                elsif data[1] == "cup" || data[1] == "teaspoon" || data[1] == "tablespoon" || data[1] == "cups" || data[1] == "teaspoons" || data[1] == "tablespoons" || data[1] == "pound" || data[1] == "pounds" || data[1] == "ounce" || data[1] == "ounces"
-                    quantity = "#{data[0]} #{data[1]}"
+                elsif data[1] == "cup" || data[1] == "teaspoon" || data[1] == "tablespoon" || data[1] == "cups" || data[1] == "teaspoons" || data[1] == "tablespoons" || data[1] == "pound" || data[1] == "pounds" || data[1] == "ounce" || data[1] == "ounces" || data[1] == "oz" || data[1] == "oz." || data[1] == "lb" || data[1] == "lbs" 
+                    quantity = "#{data[0]} #{data[1]} "
                     ingr_name = data.drop(2).join(" ")
-                elsif /\d\/\d/ == data[0] || /\d+/ == data[0]
+                elsif /\d\/\d/ == data[0] || /\d+/ == data[0] || /\d\s\d\/\d/ == data[0]
                     quantity = "#{data[0]}"
                     ingr_name = data.drop(1).join(" ")
                 else
                     ingr_name = ingr_text
                 end
-                recipe.add_ingredient(ingr_name, quantity)
+                recipe.add_ingredient(ingr_name, " #{quantity}")
             end
+            instructions = recipe_page.css(".o-Method__m-Step").map{|instr| instr.text}
+            recipe.add_instructions(instructions)
         rescue OpenURI::HTTPRedirect => redirect
         end
     end

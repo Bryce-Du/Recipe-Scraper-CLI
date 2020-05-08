@@ -1,7 +1,7 @@
 class CLI
     def call
         puts "Loading Recipes, this should take a few minutes."
-        Scraper.new.open_recipe("https://www.foodnetwork.com/recipes/recipes-a-z/a")
+        Scraper.new.open_recipe("https://www.foodnetwork.com/recipes/recipes-a-z/p")
         puts "--Recipes loaded! Welcome to Recipe Scraper!--"
         puts "Enter 'help' for a list of commands."
         puts "Enter 'exit' to close app."
@@ -38,7 +38,9 @@ class CLI
     def select_recipe(selection, recipe_array = Recipe.all)
         selected = recipe_array[(selection.to_i)-1]
         puts "  " + selected.name
-        selected.ingredients.each {|ri| puts "  - #{ri.quantity} #{ri.ingredient.name}"}
+        selected.ingredients.each {|ri| puts "  - #{ri.quantity}#{ri.ingredient.name}"}
+        puts "-- Instructions --"
+        selected.instructions.each_with_index {|instr, index| "#{index}. #{instr}"}
     end
     def random_recipe
         select_recipe(rand(Recipe.all.length-1)+1)
@@ -46,6 +48,9 @@ class CLI
     def ingr_filter
         puts "Please enter the name of the ingredient to filter by."
         ingr_name = gets.strip
+        if ingr_name == "exit"
+            exit
+        end
         ingr = Ingredient.find_by_name(ingr_name)
         if ingr != nil
             display_recipes(ingr.recipes)
