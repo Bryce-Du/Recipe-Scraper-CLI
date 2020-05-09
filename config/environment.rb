@@ -4,4 +4,4 @@ Bundler.require
 module Concerns
 end
 
-require_all 'bin'
+require_all 'bin', 'lib'
