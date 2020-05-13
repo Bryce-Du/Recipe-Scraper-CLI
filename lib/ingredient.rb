@@ -17,7 +17,7 @@ class Ingredient
         new_ingr
     end
 
-    def Ingredient.all
+    def self.all
         @@all
     end
     def Ingredient.destroy_all

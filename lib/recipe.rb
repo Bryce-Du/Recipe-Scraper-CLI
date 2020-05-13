@@ -1,7 +1,7 @@
 class Recipe
     extend Concerns::Findable
     
-    attr_accessor :name
+    attr_accessor :name, :link
     attr_reader :instructions
 
     @@all = []

@@ -2,7 +2,7 @@ require "nokogiri"
 require "open-uri"
 
 class Scraper
-    def open_index
+    def self.open_index
         index_page = "https://www.foodnetwork.com/recipes/recipes-a-z/"
         alphabet = ("a".."z").to_a
         alphabet << "123"
@@ -11,20 +11,20 @@ class Scraper
         end
     end
 
-    def open_recipe (page)
+    def self.open_recipe (page)
         letter_page = Nokogiri::HTML(open(page))
         recipe_css = letter_page.css("li.m-PromoList__a-ListItem a")
-        recipe_pages = recipe_css.map {|link| link["href"]}
-        recipe_pages.each do |recipe|
-            read_recipe("https:" + recipe.to_s)
+        recipe_css.each do |recipe_link|
+            recipe = Recipe.find_or_create_by_name(recipe_link.text)
+            recipe.link = "https:" + recipe_link["href"]
         end
     end
 
-    def read_recipe (page)
+    def self.read_recipe (recipe)
         begin
-            recipe_page = Nokogiri::HTML(open(page, {:redirect => false}))
-            name = recipe_page.css(".o-AssetTitle__a-HeadlineText")[0].text
-            recipe = Recipe.find_or_create_by_name(name)
+            recipe_page = Nokogiri::HTML(open(recipe.link, {:redirect => false}))
+            # name = recipe_page.css(".o-AssetTitle__a-HeadlineText")[0].text
+            # recipe = Recipe.find_or_create_by_name(name)
             ingr_as_css = recipe_page.css(".o-Ingredients__a-Ingredient")
             ingredients = []
             ingr_as_css.each do |ingr_css|
